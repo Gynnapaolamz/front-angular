@@ -1,0 +1,15 @@
+.container {
+  background-color: #259be97a;
+  padding: 50px;
+}
+
+.nav a.nav-link {
+  color: #01080f;
+  font-size: 30px;
+  padding: 10px 20px;
+}
+
+.nav a.nav-link.active {
+  background-color: #259be9;
+  color: #ffffff;
+}

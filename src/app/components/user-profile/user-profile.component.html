@@ -1,0 +1,50 @@
+<div class="container">
+  <h1>User Profiles</h1>
+  <hr>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>User ID</th>
+        <th>Profile Type</th>
+        <th>Company ID</th>
+        <th>Is Active</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let userProfile of userProfiles">
+        <td>{{ userProfile.user_id }}</td>
+        <td>{{ userProfile.profile_type }}</td>
+        <td>{{ userProfile.company_id }}</td>
+        <td>{{ userProfile.is_active }}</td>
+        <td>
+          <button class="btn btn-info text-light" (click)="selectUserProfile(userProfile)">Edit</button>
+          <button class="btn btn-danger" (click)="deleteUserProfile(userProfile.profile_id)">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <form (ngSubmit)="addUserProfile()">
+    <input [(ngModel)]="newUserProfile.user_id" name="userId" type="number" placeholder="User ID" required>
+    <select [(ngModel)]="newUserProfile.profile_type" name="profileType" required>
+      <option [ngValue]="ProfileType.personal">Personal</option>
+      <option [ngValue]="ProfileType.company">Company</option>
+    </select>
+    <input [(ngModel)]="newUserProfile.company_id" name="companyId" type="number" placeholder="Company ID" required>
+    <input [(ngModel)]="newUserProfile.is_active" name="isActive" type="number" placeholder="Is Active" required>
+    <button type="submit" class="btn btn-success">Add User Profile</button>
+  </form>
+  <div *ngIf="selectedUserProfile">
+    <h3>Update User Profile</h3>
+    <form (ngSubmit)="updateUserProfile()">
+      <input [(ngModel)]="selectedUserProfile.user_id" name="userId" type="number" placeholder="User ID" required>
+      <select [(ngModel)]="selectedUserProfile.profile_type" name="profileType" required>
+        <option [ngValue]="ProfileType.personal">Personal</option>
+        <option [ngValue]="ProfileType.company">Company</option>
+      </select>
+      <input [(ngModel)]="selectedUserProfile.company_id" name="companyId" type="number" placeholder="Company ID" required>
+      <input [(ngModel)]="selectedUserProfile.is_active" name="isActive" type="number" placeholder="Is Active" required>
+      <button type="submit" class="btn btn-primary">Update User Profile</button>
+    </form>
+  </div>
+</div>

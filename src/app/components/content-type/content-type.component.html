@@ -1,0 +1,50 @@
+<div class="container">
+  <h1>Content Types</h1>
+  <hr>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Visibility</th>
+        <th>Profile ID</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let contentType of contentTypes">
+        <td>{{ contentType.content_type_name | titlecase }}</td>
+        <td>{{ contentType.description | titlecase }}</td>
+        <td>{{ contentType.visibility }}</td>
+        <td>{{ contentType.profile_id }}</td>
+        <td>
+          <button class="btn btn-info text-light" (click)="selectContentType(contentType)">Edit</button>
+          <button class="btn btn-danger" (click)="deleteContentType(contentType.content_type_id)">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <form (ngSubmit)="addContentType()">
+    <input [(ngModel)]="newContentType.content_type_name" name="nameNew" type="text" placeholder="Name" required>
+    <input [(ngModel)]="newContentType.description" name="descriptionNew" type="text" placeholder="Description" required>
+    <select [(ngModel)]="newContentType.visibility" name="visibilityNew" required>
+      <option [ngValue]="visibility.private">Private</option>
+      <option [ngValue]="visibility.public">Public</option>
+    </select>
+    <input [(ngModel)]="newContentType.profile_id" name="profileIdNew" type="number" placeholder="Profile ID" required>
+    <button type="submit" class="btn btn-success">New Content Type</button>
+  </form>
+  <div *ngIf="selectedContentType">
+    <h3>Update Content Type</h3>
+    <form (ngSubmit)="updateContentType()">
+      <input [(ngModel)]="selectedContentType.content_type_name" name="name" type="text" placeholder="Name" required>
+      <input [(ngModel)]="selectedContentType.description" name="description" type="text" placeholder="Description" required>
+      <select [(ngModel)]="selectedContentType.visibility" name="visibility" required>
+        <option [ngValue]="visibility.private">Private</option>
+        <option [ngValue]="visibility.public">Public</option>
+      </select>
+      <input [(ngModel)]="selectedContentType.profile_id" name="profileId" type="number" placeholder="Profile ID" required>
+      <button type="submit" class="btn btn-primary">Update Content Type</button>
+    </form>
+  </div>
+</div>
