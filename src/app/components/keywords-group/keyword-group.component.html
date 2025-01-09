@@ -1,1 +1,46 @@
-<p>keywords-group works!</p>
+<div class="container">
+  <h1>Keyword Groups</h1>
+  <hr>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Group Name</th>
+        <th>Visibility</th>
+        <th>Content Type ID</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let keywordGroup of keywordGroups">
+        <td>{{ keywordGroup.group_name | titlecase }}</td>
+        <td>{{ keywordGroup.visibility }}</td>
+        <td>{{ keywordGroup.content_type_id }}</td>
+        <td>
+          <button class="btn btn-info text-light" (click)="selectKeywordGroup(keywordGroup)">Edit</button>
+          <button class="btn btn-danger" (click)="deleteKeywordGroup(keywordGroup.keyword_group_id)">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <form (ngSubmit)="addKeywordGroup()">
+    <input [(ngModel)]="newKeywordGroup.group_name" name="groupNameNew" type="text" placeholder="Group Name" required>
+    <select [(ngModel)]="newKeywordGroup.visibility" name="visibilityNew" required>
+      <option [ngValue]="visibility.private">Private</option>
+      <option [ngValue]="visibility.public">Public</option>
+    </select>
+    <input [(ngModel)]="newKeywordGroup.content_type_id" name="contentTypeIdNew" type="number" placeholder="Content Type ID" required>
+    <button type="submit" class="btn btn-success">New Keyword Group</button>
+  </form>
+  <div *ngIf="selectedKeywordGroup">
+    <h3>Update Keyword Group</h3>
+    <form (ngSubmit)="updateKeywordGroup()">
+      <input [(ngModel)]="selectedKeywordGroup.group_name" name="groupName" type="text" placeholder="Group Name" required>
+      <select [(ngModel)]="selectedKeywordGroup.visibility" name="visibility" required>
+        <option [ngValue]="visibility.private">Private</option>
+        <option [ngValue]="visibility.public">Public</option>
+      </select>
+      <input [(ngModel)]="selectedKeywordGroup.content_type_id" name="contentTypeId" type="number" placeholder="Content Type ID" required>
+      <button type="submit" class="btn btn-primary">Update Keyword Group</button>
+    </form>
+  </div>
+</div>

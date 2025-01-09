@@ -1,3 +1,6 @@
+import { ProfileType } from "./profile-type.enum";
+
+
 export interface UserProfile {
   profile_id: number;
   user_id: number;
@@ -7,10 +10,3 @@ export interface UserProfile {
   created_at: Date;
   updated_at: Date;
 }
-
-export enum ProfileType {
-  personal = 'personal',
-  company = 'company'
-}
-
-

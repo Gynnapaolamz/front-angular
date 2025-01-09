@@ -2,17 +2,20 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ContentTypeService } from '../../services/content-type.service';
-import { ContentType, visibility } from '../../interfaces/content-type.model';
+import { ContentType } from '../../interfaces/content-type.model';
+import { visibility } from '../../interfaces/visibility.enum';
 
 
 @Component({
   selector: 'app-content-type',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule ],
   templateUrl: './content-type.component.html',
   styles: ``
 })
 export class ContentTypeComponent  implements OnInit{
+
+  visibility = visibility;
 
   contentTypes: ContentType[] = [];
   newContentType: ContentType = {

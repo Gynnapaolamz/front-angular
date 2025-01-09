@@ -1,4 +1,4 @@
-import { visibility } from "./content-type.model";
+import { visibility } from "./visibility.enum";
 
 export interface KeywordGroup {
   keyword_group_id: number;

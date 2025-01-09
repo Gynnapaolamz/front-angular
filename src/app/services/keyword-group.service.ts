@@ -10,7 +10,7 @@ export class KeywordsGroupService {
 
   private apiUrl = 'http://localhost:3000/keyword_group';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   getKeywordGroups(): Observable<KeywordGroup[]> {
     return this.http.get<KeywordGroup[]>(this.apiUrl).pipe(

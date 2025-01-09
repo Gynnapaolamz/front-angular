@@ -1,10 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { KeywordGroup } from '../../interfaces/keywords-group.model';
-import { visibility } from '../../interfaces/content-type.model';
-import { KeywordsGroupService } from '../../services/keyword-group.service';
 
+import { KeywordsGroupService } from '../../services/keyword-group.service';
+import { visibility } from '../../interfaces/visibility.enum';
+import { KeywordGroup } from '../../interfaces/keywords-group.model';
 @Component({
   selector: 'app-keyword-group',
   standalone: true,
@@ -13,6 +13,8 @@ import { KeywordsGroupService } from '../../services/keyword-group.service';
   styles: ``
 })
 export class KeywordsGroupComponent implements OnInit{
+
+  visibility = visibility;
 
   keywordGroups: KeywordGroup[] = [];
   newKeywordGroup: KeywordGroup = {

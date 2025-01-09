@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { ProfileType, UserProfile } from '../../interfaces/user-profile.model';
-import { UserProfileService } from '../../services/user-profile.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+
+import { UserProfileService } from '../../services/user-profile.service';
+import { ProfileType } from '../../interfaces/profile-type.enum';
+import { UserProfile } from '../../interfaces/user-profile.model';
 
 @Component({
   selector: 'app-user-profile',
@@ -11,7 +13,9 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './user-profile.component.html',
   styles: ``
 })
-export class UserProfileComponent implements OnInit{
+export class UserProfileComponent implements OnInit {
+
+  ProfileType = ProfileType;
 
   userProfiles: UserProfile[] = [];
   newUserProfile: UserProfile = {
@@ -23,7 +27,6 @@ export class UserProfileComponent implements OnInit{
     created_at: new Date(),
     updated_at: new Date()
   };
-  
   selectedUserProfile: UserProfile | null = null;
 
   constructor(private userProfileService: UserProfileService) {}
