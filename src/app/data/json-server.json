@@ -1,5 +1,1 @@
-{
-  "routes": {
-    "/user_profiles": "/user_profiles?_sort=profile_id"
-  }
-}
+

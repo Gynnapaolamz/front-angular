@@ -19,7 +19,7 @@ export class ContentTypeService {
     );
   }
 
-  getContentTypeById(id: number): Observable<ContentType> {
+  getContentTypeById(id: string): Observable<ContentType> {
     return this.http.get<ContentType>(`${this.apiUrl}/${id}`).pipe(
       catchError(this.handleError<ContentType>())
     );
@@ -31,14 +31,14 @@ export class ContentTypeService {
     );
   }
 
-  updateContentType(content_type_id: number, contentType: ContentType): Observable<ContentType> {
-    return this.http.put<ContentType>(`${this.apiUrl}/${content_type_id}`, contentType).pipe(
+  updateContentType(id: string, contentType: ContentType): Observable<ContentType> {
+    return this.http.put<ContentType>(`${this.apiUrl}/${id}`, contentType).pipe(
       catchError(this.handleError<ContentType>())
     );
   }
 
-  deleteContentType(content_type_id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${content_type_id}`).pipe(
+  deleteContentType(id: string): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`).pipe(
       catchError(this.handleError<void>())
     );
   }

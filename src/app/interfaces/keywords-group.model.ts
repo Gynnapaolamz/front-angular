@@ -1,7 +1,7 @@
 import { visibility } from "./visibility.enum";
 
 export interface KeywordGroup {
-  keyword_group_id: number;
+  id: string;
   group_name: string;
   visibility: visibility;
   created_at: Date;

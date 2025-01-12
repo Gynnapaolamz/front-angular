@@ -5,6 +5,8 @@ import { FormsModule } from '@angular/forms';
 import { KeywordsGroupService } from '../../services/keyword-group.service';
 import { visibility } from '../../interfaces/visibility.enum';
 import { KeywordGroup } from '../../interfaces/keywords-group.model';
+import { v4 as uuidv4 } from 'uuid';
+
 @Component({
   selector: 'app-keyword-group',
   standalone: true,
@@ -18,7 +20,7 @@ export class KeywordsGroupComponent implements OnInit{
 
   keywordGroups: KeywordGroup[] = [];
   newKeywordGroup: KeywordGroup = {
-    keyword_group_id: 0,
+    id: '',
     group_name: '',
     visibility: visibility.private,
     created_at: new Date(),
@@ -34,22 +36,23 @@ export class KeywordsGroupComponent implements OnInit{
   }
 
   loadKeywordGroups(): void {
-    this.keywordGroupService.getKeywordGroups().subscribe(
-      keywordGroups => {
+    this.keywordGroupService.getKeywordGroups().subscribe({
+    next: (keywordGroups) => {
         this.keywordGroups = keywordGroups;
       },
-      error => {
+      error: (error) => {
         console.error('Error loading keyword groups', error);
       }
-    );
+  });
   }
 
   addKeywordGroup(): void {
-    this.keywordGroupService.addKeywordGroup(this.newKeywordGroup).subscribe(
-      keywordGroup => {
+    this.newKeywordGroup.id = uuidv4();
+    this.keywordGroupService.addKeywordGroup(this.newKeywordGroup).subscribe({
+      next: (keywordGroup) => {
         this.keywordGroups.push(keywordGroup);
         this.newKeywordGroup = {
-          keyword_group_id: 0,
+          id: '',
           group_name: '',
           visibility: visibility.private,
           created_at: new Date(),
@@ -57,10 +60,10 @@ export class KeywordsGroupComponent implements OnInit{
           content_type_id: 0
         };
       },
-      error => {
+      error: (error) => {
         console.error('Error adding keyword group', error);
       }
-    );
+  });
   }
 
   selectKeywordGroup(keywordGroup: KeywordGroup): void {
@@ -68,32 +71,32 @@ export class KeywordsGroupComponent implements OnInit{
   }
 
   updateKeywordGroup(): void {
-    if (this.selectedKeywordGroup && this.selectedKeywordGroup.keyword_group_id) {
+    if (this.selectedKeywordGroup && this.selectedKeywordGroup.id) {
       this.selectedKeywordGroup.updated_at = new Date();
-      this.keywordGroupService.updateKeywordGroup(this.selectedKeywordGroup.keyword_group_id, this.selectedKeywordGroup).subscribe(
-        () => {
+      this.keywordGroupService.updateKeywordGroup(this.selectedKeywordGroup.id, this.selectedKeywordGroup).subscribe({
+        next: () => {
           this.loadKeywordGroups();
           this.selectedKeywordGroup = null;
         },
-        error => {
+        error: (error) => {
           console.error('Error updating keyword group', error);
         }
-      );
+    });
     } else {
       console.error('Selected keyword group or keyword group ID is invalid');
     }
   }
 
-  deleteKeywordGroup(keyword_group_id: number): void {
-    if (keyword_group_id) {
-      this.keywordGroupService.deleteKeywordGroup(keyword_group_id).subscribe(
-        () => {
+  deleteKeywordGroup(id: string): void {
+    if (id) {
+      this.keywordGroupService.deleteKeywordGroup(id).subscribe({
+        next: () => {
           this.loadKeywordGroups();
         },
-        error => {
+        error: (error) => {
           console.error('Error deleting keyword group', error);
         }
-      );
+    });
     } else {
       console.error('Keyword group ID is invalid');
     }

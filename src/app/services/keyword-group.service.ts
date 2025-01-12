@@ -18,7 +18,7 @@ export class KeywordsGroupService {
     );
   }
 
-  getKeywordGroupById(id: number): Observable<KeywordGroup> {
+  getKeywordGroupById(id: string): Observable<KeywordGroup> {
     return this.http.get<KeywordGroup>(`${this.apiUrl}/${id}`).pipe(
       catchError(this.handleError<KeywordGroup>())
     );
@@ -30,14 +30,14 @@ export class KeywordsGroupService {
     );
   }
 
-  updateKeywordGroup(keyword_group_id: number, keywordGroup: KeywordGroup): Observable<KeywordGroup> {
-    return this.http.put<KeywordGroup>(`${this.apiUrl}/${keyword_group_id}`, keywordGroup).pipe(
+  updateKeywordGroup(id: string, keywordGroup: KeywordGroup): Observable<KeywordGroup> {
+    return this.http.put<KeywordGroup>(`${this.apiUrl}/${id}`, keywordGroup).pipe(
       catchError(this.handleError<KeywordGroup>())
     );
   }
 
-  deleteKeywordGroup(keyword_group_id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${keyword_group_id}`).pipe(
+  deleteKeywordGroup(id: string): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`).pipe(
       catchError(this.handleError<void>())
     );
   }

@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { UserProfileService } from '../../services/user-profile.service';
 import { ProfileType } from '../../interfaces/profile-type.enum';
 import { UserProfile } from '../../interfaces/user-profile.model';
+import { v4 as uuidv4 } from 'uuid';
 
 @Component({
   selector: 'app-user-profile',
@@ -19,7 +20,7 @@ export class UserProfileComponent implements OnInit {
 
   userProfiles: UserProfile[] = [];
   newUserProfile: UserProfile = {
-    profile_id: 0,
+    id: '',
     user_id: 0,
     profile_type: ProfileType.personal,
     company_id: 0,
@@ -36,23 +37,24 @@ export class UserProfileComponent implements OnInit {
   }
 
   loadUserProfiles(): void {
-    this.userProfileService.getUserProfiles().subscribe(
-      userProfiles => {
+    this.userProfileService.getUserProfiles().subscribe({
+      next: (userProfiles) => {
         this.userProfiles = userProfiles;
       },
-      error => {
+      error: (error) => {
         console.error('Error loading user profiles', error);
       }
-    );
+  });
   }
 
   addUserProfile(): void {
-    this.userProfileService.addUserProfile(this.newUserProfile).subscribe(
-      userProfile => {
+    this.newUserProfile.id = uuidv4();
+    this.userProfileService.addUserProfile(this.newUserProfile).subscribe({
+      next: (userProfile) => {
         if (userProfile) {
           this.userProfiles.push(userProfile);
           this.newUserProfile = {
-            profile_id: 0,
+            id: '',
             user_id: 0,
             profile_type: ProfileType.personal,
             company_id: 0,
@@ -62,10 +64,10 @@ export class UserProfileComponent implements OnInit {
           };
         }
       },
-      error => {
+      error: (error) => {
         console.error('Error adding user profile', error);
       }
-    );
+  });
   }
 
   selectUserProfile(userProfile: UserProfile): void {
@@ -73,32 +75,32 @@ export class UserProfileComponent implements OnInit {
   }
 
   updateUserProfile(): void {
-    if (this.selectedUserProfile && this.selectedUserProfile.profile_id) {
+    if (this.selectedUserProfile && this.selectedUserProfile.id) {
       this.selectedUserProfile.updated_at = new Date();
-      this.userProfileService.updateUserProfile(this.selectedUserProfile.profile_id, this.selectedUserProfile).subscribe(
-        () => {
+      this.userProfileService.updateUserProfile(this.selectedUserProfile.id, this.selectedUserProfile).subscribe({
+        next: () => {
           this.loadUserProfiles();
           this.selectedUserProfile = null;
         },
-        error => {
+        error: (error) => {
           console.error('Error updating user profile', error);
         }
-      );
+    });
     } else {
       console.error('Selected user profile or profile ID is invalid');
     }
   }
 
-  deleteUserProfile(profile_id: number): void {
-    if (profile_id) {
-      this.userProfileService.deleteUserProfile(profile_id).subscribe(
-        () => {
+  deleteUserProfile(id: string): void {
+    if (id) {
+      this.userProfileService.deleteUserProfile(id).subscribe({
+        next: () => {
           this.loadUserProfiles();
         },
-        error => {
+        error: (error) => {
           console.error('Error deleting user profile', error);
         }
-      );
+    });
     } else {
       console.error('Profile ID is invalid');
     }

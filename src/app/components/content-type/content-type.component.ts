@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { ContentTypeService } from '../../services/content-type.service';
 import { ContentType } from '../../interfaces/content-type.model';
 import { visibility } from '../../interfaces/visibility.enum';
+import { v4 as uuidv4 } from 'uuid';
 
 
 @Component({
@@ -16,10 +17,9 @@ import { visibility } from '../../interfaces/visibility.enum';
 export class ContentTypeComponent  implements OnInit{
 
   visibility = visibility;
-
   contentTypes: ContentType[] = [];
   newContentType: ContentType = {
-    content_type_id: 0,
+    id: '',
     content_type_name: '',
     description: '',
     visibility: visibility.private,
@@ -36,22 +36,23 @@ export class ContentTypeComponent  implements OnInit{
   }
 
   loadContentTypes(): void {
-    this.contentTypeService.getContentTypes().subscribe(
-      contentTypes => {
+    this.contentTypeService.getContentTypes().subscribe({
+      next: (contentTypes) => {
         this.contentTypes = contentTypes;
       },
-      error => {
+      error: (error) => {
         console.error('Error loading content types', error);
       }
-    );
+    });
   }
 
   addContentType(): void {
-    this.contentTypeService.addContentType(this.newContentType).subscribe(
-      contentType => {
+    this.newContentType.id = uuidv4();
+    this.contentTypeService.addContentType(this.newContentType).subscribe({
+      next: (contentType) => {
         this.contentTypes.push(contentType);
         this.newContentType = {
-          content_type_id: 0,
+          id: '',
           content_type_name: '',
           description: '',
           visibility: visibility.private,
@@ -60,10 +61,10 @@ export class ContentTypeComponent  implements OnInit{
           updated_at: new Date()
         };
       },
-      error => {
+      error: (error) => {
         console.error('Error adding content type', error);
       }
-    );
+    });
   }
 
   selectContentType(contentType: ContentType): void {
@@ -71,32 +72,32 @@ export class ContentTypeComponent  implements OnInit{
   }
 
   updateContentType(): void {
-    if (this.selectedContentType && this.selectedContentType.content_type_id) {
+    if (this.selectedContentType && this.selectedContentType.id) {
       this.selectedContentType.updated_at = new Date();
-      this.contentTypeService.updateContentType(this.selectedContentType.content_type_id, this.selectedContentType).subscribe(
-        () => {
+      this.contentTypeService.updateContentType(this.selectedContentType.id, this.selectedContentType).subscribe({
+        next: () => {
           this.loadContentTypes();
           this.selectedContentType = null;
         },
-        error => {
+        error: (error) => {
           console.error('Error updating content type', error);
         }
-      );
+      });
     } else {
       console.error('Selected content type or content type ID is invalid');
     }
   }
 
-  deleteContentType(content_type_id: number): void {
-    if (content_type_id) {
-      this.contentTypeService.deleteContentType(content_type_id).subscribe(
-        () => {
+  deleteContentType(id: string): void {
+    if (id) {
+      this.contentTypeService.deleteContentType(id).subscribe({
+        next: () => {
           this.loadContentTypes();
         },
-        error => {
+        error: (error) => {
           console.error('Error deleting content type', error);
         }
-      );
+      });
     } else {
       console.error('Content type ID is invalid');
     }

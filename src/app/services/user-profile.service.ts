@@ -18,7 +18,7 @@ export class UserProfileService {
     );
   }
 
-  getUserProfileById(id: number): Observable<UserProfile> {
+  getUserProfileById(id: string): Observable<UserProfile> {
     return this.http.get<UserProfile>(`${this.apiUrl}/${id}`).pipe(
       catchError(this.handleError<UserProfile>())
     );
@@ -30,14 +30,14 @@ export class UserProfileService {
     );
   }
 
-  updateUserProfile(profile_id: number, userProfile: UserProfile): Observable<UserProfile> {
-    return this.http.put<UserProfile>(`${this.apiUrl}/${profile_id}`, userProfile).pipe(
+  updateUserProfile(id: string, userProfile: UserProfile): Observable<UserProfile> {
+    return this.http.put<UserProfile>(`${this.apiUrl}/${id}`, userProfile).pipe(
       catchError(this.handleError<UserProfile>())
     );
   }
 
-  deleteUserProfile(profile_id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${profile_id}`).pipe(
+  deleteUserProfile(id: string): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`).pipe(
       catchError(this.handleError<void>())
     );
   }

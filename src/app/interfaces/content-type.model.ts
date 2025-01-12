@@ -1,7 +1,7 @@
 import { visibility } from "./visibility.enum";
 
 export interface ContentType {
-  content_type_id: number;
+  id: string;
   content_type_name: string;
   description: string;
   visibility: visibility;
